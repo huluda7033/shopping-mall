@@ -4,8 +4,9 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
 
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
+import './assets/iconfont/iconfont.css'
+import './assets/iconfont/iconfont.js'
 
 new Vue({
   render: h => h(App),

@@ -1,47 +1,48 @@
 <template>
 	<div id="app">
-		<!-- 顶部 -->
-		<van-nav-bar title="标题" left-text="返回" right-text="按钮" left-arrow @click-left="onClickLeft"
-			@click-right="onClickRight" />
-		<!-- 轮播 -->
-		<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-			<van-swipe-item>1</van-swipe-item>
-			<van-swipe-item>2</van-swipe-item>
-			<van-swipe-item>3</van-swipe-item>
-			<van-swipe-item>4</van-swipe-item>
-		</van-swipe>
-		<!-- 选项卡 -->
-		<van-tabs v-model="active" animated>
-			<van-tab v-for="index in 4" :title="'选项 ' + index" :key="index">
-				内容 {{ index }}
-				<img alt="Vue logo" src="./assets/logo.png">
-			</van-tab>
-		</van-tabs>
-		<!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-		<!-- 底部确认区 -->
-		<van-goods-action>
-			<van-goods-action-icon icon="chat-o" text="客服" dot />
-			<van-goods-action-icon icon="cart-o" text="购物车" :badge="cartTotal" />
-			<van-goods-action-icon icon="shop-o" text="店铺" badge="12" />
-			<van-goods-action-button type="warning" text="加入购物车" />
-			<van-goods-action-button type="danger" text="立即购买" />
-		</van-goods-action>
-		<input v-model="msg">
-		<br/>
-		{{msg}}
+		<div class="home-header flex-row-center">
+			<div class="location flex-row-center">
+				<i class="iconfont icondingweiweizhi"></i>
+				<span>{{location}}</span>
+			</div>
+			<div class="search-bar flex-row-center">
+				<i class="iconfont iconsousuo"></i>
+				<input type="text" v-model="searchText" :placeholder="placeholder">
+			</div>
+		</div>
+		<div class="relative">
+			<van-tabs v-model="active" swipeable animated>
+						<van-tab v-for="(category, index) in categoryList" :title="category" :key="index" class="tab">
+							{{ category }}
+						</van-tab>
+					</van-tabs>
+
+					<van-swipe class="swipe" :autoplay="3000" indicator-color="white">
+						<van-swipe-item>
+							<img src="./assets/image/share.png" alt="">
+						</van-swipe-item>
+					</van-swipe>
+		</div>
+		
 	</div>
 </template>
 
 <script>
-
-
 export default {
 	name: 'App',
 	data() {
 		return {
-			cartTotal: 50,
+			searchText: '',
+			location: '苏州',
+			placeholder: '请输入搜索内容',
+
 			active: 0,
-			msg: ''
+			categoryList: [
+				'美食餐饮',
+				'休闲娱乐',
+				'本地旅游',
+				'服务'
+			] 
 		}
 	},
 	
@@ -60,15 +61,64 @@ export default {
 		}
 	},
 	mounted() {
-		console.log(1213)
-		setTimeout(()=> {
-			this.active = 2
-		}, 5000)
+		document.title = '积分商城';
 	}
 }
 </script>
 
-<style>
+<style lang="scss">
+.home-header{
+	height: 44px;
+	margin: 20px 10px;
+	.location{
+		margin-right: 8px;
+		.icondingweiweizhi{
+			margin-right: 5px;
+			color: red;
+		}
+	} 
+	.search-bar{
+		height: 44px;
+		background: #F1F1F3;
+		border: 1px solid #DBDBDB;
+		border-radius: 15px;
+		flex: 1;
+		.iconsousuo{
+			margin: 0 6px 0 18px;
+		}
+		input{
+			border: none;
+			background:transparent;
+		}
+	}
+}
+
+.tab{
+	margin-top: 150px;
+}
+
+body .swipe{
+	position: absolute;
+	top: 60px;
+	img{
+		width: 100%;
+	}
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -78,11 +128,23 @@ export default {
 	/* margin-top: 60px; */
 }
 
-.my-swipe .van-swipe-item {
-	color: #fff;
-	font-size: 20px;
-	line-height: 150px;
-	text-align: center;
-	background-color: #39a9ed;
+.flex-row-center{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.relative{
+	position: relative;
+}
+
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  font-size: 38px;
 }
 </style>
