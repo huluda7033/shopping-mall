@@ -9,34 +9,36 @@
         </div>
         <div class="content">
             <ul class="goods-list flex-column">
-                <li class="flex-row" v-for="(goods, index) in cartList" :key="index">
-                    <van-icon class="flex-row-center" 
-                        :class="{ checked: goods.isChecked }"
-                        :name="goods.isChecked ? 'checked' : 'circle'" 
-                        @click="toggle(goods)" />
+                <van-swipe-cell  v-for="(goods, index) in cartList" :key="index">
+                    <li class="flex-row">
+                        <van-icon class="flex-row-center" :class="{ checked: goods.isChecked }"
+                            :name="goods.isChecked ? 'checked' : 'circle'" @click="toggle(goods)" />
 
 
-                    <van-image class="image" width="100" height="100" radius="10" :src="goods.pictureUrl" />
+                        <van-image class="image" width="100" height="100" radius="10" :src="goods.pictureUrl" />
 
-                    <div class="goods-info">
-                        <div class="goods-title">
-                            {{ goods.title }}
+                        <div class="goods-info">
+                            <div class="goods-title">
+                                {{ goods.title }}
+                            </div>
+                            <div class="goods-total-price">
+                                <span class="total">总金额:￥{{ goods.unitPirce * goods.number }}</span>
+                                <span class="border" @click="minus(goods)">-</span>
+                                <span class="border">{{ goods.number }}</span>
+                                <span class="border" @click="add(goods)">+</span>
+                            </div>
                         </div>
-                        <div class="goods-total-price">
-                            <span class="total">总金额:￥{{ goods.unitPirce * goods.number }}</span>
-                            <span class="border" @click="minus(goods)">-</span>
-                            <span class="border">{{ goods.number }}</span>
-                            <span class="border" @click="add(goods)">+</span>
+                        <div class="unit-price">
+                            <span class="unit">￥{{ goods.unitPirce }}</span>
+                            <span class="number">x{{ goods.number }}</span>
                         </div>
-                    </div>
-                    <div class="unit-price">
-                        <span class="unit">￥{{ goods.unitPirce }}</span>
-                        <span class="number">x{{ goods.number }}</span>
-                    </div>
-                </li>
+                    </li>
+                    <template #right>
+                        <van-button square text="删除" type="danger" class="delete-button" />
+                    </template>
+                </van-swipe-cell>
             </ul>
         </div>
-
         <van-submit-bar :price="total" button-text="提交订单" @submit="onSubmit" :disabled="total == 0">
             <van-checkbox v-model="checkedAll" @click="toggleAll">全选</van-checkbox>
         </van-submit-bar>
@@ -44,8 +46,20 @@
 </template>
 
 <script>
-let cartList = localStorage.getItem('cartList') ? JSON.parse(localStorage.getItem('cartList')) : [
+
+export default {
+    name: 'Cart',
+    data() {
+        return {
+            cartList: [],
+            checkedAll: false
+        }
+    },
+    methods: {
+        init() {
+            this.cartList = localStorage.getItem('cartList') ? JSON.parse(localStorage.getItem('cartList')) : [
                 {
+                    goodsID: 1,
                     title: '大师级新鲜采摘水果蔬菜沙 拉调味料',
                     pictureUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
                     isChecked: false,
@@ -53,6 +67,7 @@ let cartList = localStorage.getItem('cartList') ? JSON.parse(localStorage.getIte
                     unitPirce: 98
                 },
                 {
+                    goodsID: 2,
                     title: '大师级新鲜采摘水果蔬菜沙 拉调味料1',
                     pictureUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
                     isChecked: false,
@@ -60,15 +75,8 @@ let cartList = localStorage.getItem('cartList') ? JSON.parse(localStorage.getIte
                     unitPirce: 18
                 }
             ];
-export default {
-    name: 'Cart',
-    data() {
-        return {
-            cartList: cartList,
-            checkedAll: false
-        }
-    },
-    methods: {
+            localStorage.setItem('cartList', JSON.stringify(this.cartList));
+        },
         minus(goods) {
             if (goods.number > 1) {
                 goods.number--;
@@ -107,16 +115,8 @@ export default {
     },
     mounted() {
         document.title = '购物车';
-        setTimeout(() => {
-           this.cartList.push({
-                    title: '大师级新鲜采摘水果蔬菜沙 拉调味料2',
-                    pictureUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
-                    isChecked: false,
-                    number: 1,
-                    unitPirce: 66
-           })
-           localStorage.setItem('cartList' , JSON.stringify(this.cartList))
-        }, 3000)
+        this.init()
+
     },
 }
 </script>
