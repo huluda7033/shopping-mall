@@ -13,3 +13,8 @@ new Vue({
   router, //看这儿
   render: h => h(App),
 }).$mount('#app')
+
+
+
+
+

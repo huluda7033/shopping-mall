@@ -48,7 +48,7 @@
 					<div class="card">
 						<p>热门推荐</p>
 						<div class="flex-row-center overflow-auto card-content">
-							<div class="store" v-for="goods in recommendList" :key="goods.name">
+							<div class="store" v-for="goods in recommendList" :key="goods.name" @click="navToDetail(goods)">
 								<img :src="goods.pictureUrl" alt="">
 								<div class="goods-info">
 									<span class="goods-name">{{goods.name}}</span> 
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+
 export default {
 	name: 'Home',
 	data() {
@@ -173,6 +174,13 @@ export default {
 			}else{
 				return Math.round(distance/1000) + 'km'
 			}
+		},
+		navToDetail(gooods){
+			console.log(this)
+			// debugger
+			
+			this.$router.push({ name: 'commodity', params: {id: 123} })
+			// this.$router.push({ path: '/commodity', query: {id: 123} })
 		}
 	},
 	mounted() {
@@ -332,7 +340,7 @@ export default {
 		}
 
 		.item {
-			margin-left: 20px;
+			// margin-left: 20px;
 
 			img {
 				width: 146px;

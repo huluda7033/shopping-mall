@@ -5,7 +5,7 @@
 		<van-tabbar route>
 				<van-tabbar-item icon="home-o" to="/">本地生活</van-tabbar-item>
 				<van-tabbar-item icon="search" to="/cart">购物</van-tabbar-item>
-				<van-tabbar-item icon="friends-o">订单</van-tabbar-item>
+				<van-tabbar-item icon="friends-o" to="/commodity">订单</van-tabbar-item>
 				<van-tabbar-item icon="setting-o" to="/me">我的</van-tabbar-item>
 		</van-tabbar>
 
@@ -52,7 +52,9 @@ body .flex-row-center {
 .overflow-auto {
 	overflow: auto;
 }
-
+.overflow-hidden{
+	overflow: hidden;
+}
 .icon {
 	width: 1em;
 	height: 1em;
